@@ -1,4 +1,8 @@
 // A simple "Sieve of Erathostenes" implementation of PRIME1 from SPOJ.
+// The next versions will focus on performance. Two ideas:
+// 1. primelist[n]=value which determines immediately if n is prime, composite or untested.
+// 	NOTE: Untested value might be replaced by a global maximum.
+// 2. Maintain an ordered list (AVL tree?) of previously determined primes.
 
 #include <iostream>
 
