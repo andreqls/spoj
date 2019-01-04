@@ -3,10 +3,11 @@
 
 #include <iostream>
 
-int T,N;
-int primelist[1000000];
+int MIN,MAX;
+const int size_param=31623;
+bool isPrime[size_param][size_param]; // isPrimef(x) <=> isPrime[x/size_param][x%size_param]
 
-bool isPrime(int candidate) {
+bool isPrimef(int candidate) {
     int i;
     if (candidate<2) return false;
     for (i=2;i*i<=candidate;i++)
@@ -14,19 +15,46 @@ bool isPrime(int candidate) {
     return true;
 }
 
+void updatePrimeList(int first, int last) {
+    int candidate;
+    for (candidate=first;candidate<=last;candidate++) {
+        if (isPrimef(candidate)) isPrime[candidate/size_param][candidate%size_param]=true;
+        else isPrime[candidate/size_param][candidate%size_param]=false;
+    }
+}
+
+void listPrimes(int m, int n) {
+    if (m<MIN) {
+        updatePrimeList(m,MIN-1);
+        MIN=m;
+    }
+    if (n>MAX) {
+        updatePrimeList(MAX+1,n);
+        MAX=n;
+    }
+}
+
+void printPrimes(int m, int n) {
+    int i;
+    for (i=m;i<=n;i++)
+        if (isPrime[i/size_param][i%size_param]) std::cout << i << std::endl;
+    std::cout << std::endl;
+}
+
 int main(int argc, char **argv) {
     int t, n, m, i;
-    std::cin >> t;
-    for (T=0;t>0;T++) {
+    bool first=true;
+    for (std::cin >> t;t>0;t--) {
         std::cin >> m;
         std::cin >> n;
-        N=0;
-        for (;m<=n;m++)
-            if (isPrime(m)) primelist[T][N++]=m;
-        for (i=0;i<N;i++)
-            std::cout << primelist[T][i] << std::endl;
-        t--;
-        std::cout << std::endl;
+        if (!first) listPrimes(m,n);
+        else {
+            updatePrimeList(m,n);
+            MIN=m;
+            MAX=n;
+            first=false;
+        }
+            printPrimes(m,n);
     }
     return 0;
 }
