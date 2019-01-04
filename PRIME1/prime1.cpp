@@ -1,5 +1,6 @@
 // primelist[n]=value which determines immediately if n is prime, composite or untested.
 // NOTE: Untested value might be replaced by a global maximum.
+// Results: it is slower! Didn't expect that.
 
 #include <iostream>
 
